@@ -1,24 +1,33 @@
 #include <stdio.h>
 
+#define EMPTY 0
+#define BLACK 1
+#define WHITE 2
+
 int main(void)
 {
-    int board[8][8] = {0};
+    int board[8][8] = {EMPTY};
+
+    board[3][3] = WHITE;
+    board[3][4] = BLACK;
+    board[4][3] = BLACK;
+    board[4][4] = WHITE;
 
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
         {
-            if (board[i][j] == 0)
+            if (board[i][j] == EMPTY)
             {
-                printf(".");
+                printf(". ");
             }
-            else if (board[i][j] == 1)
+            else if (board[i][j] == BLACK)
             {
-                printf("B");
+                printf("B ");
             }
-            else if (board[i][j] == 2)
+            else if (board[i][j] == WHITE)
             {
-                printf("W");
+                printf("W ");
             }
         }
         printf("\n");
