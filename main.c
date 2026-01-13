@@ -4,15 +4,8 @@
 #define BLACK 1
 #define WHITE 2
 
-int main(void)
+void print_board(int board[8][8])
 {
-    int board[8][8] = {EMPTY};
-
-    board[3][3] = WHITE;
-    board[3][4] = BLACK;
-    board[4][3] = BLACK;
-    board[4][4] = WHITE;
-
     for (int i = 0; i < 8; i++)
     {
         for (int j = 0; j < 8; j++)
@@ -32,6 +25,18 @@ int main(void)
         }
         printf("\n");
     }
+}
+
+int main(void)
+{
+    int board[8][8] = {EMPTY};
+
+    board[3][3] = WHITE;
+    board[3][4] = BLACK;
+    board[4][3] = BLACK;
+    board[4][4] = WHITE;
+
+    print_board(board);
 
     return 0;
 }
