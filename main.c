@@ -111,7 +111,14 @@ int main(void)
         printf("%sの番です。\n", (current_player == BLACK) ? "黒(B)" : "白(W)");
 
         printf("どこに置きますか？ (行 列): ");
-        scanf("%d %d", &row, &col);
+        if (scanf("%d %d", &row, &col) != 2)
+        {
+            printf("エラー：数字（0～7）を2つ入力してください。\n");
+            while (getchar() != '\n')
+            {
+            }
+            continue;
+        }
 
         if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
         {
