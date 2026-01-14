@@ -31,6 +31,35 @@ void print_board(int board[8][8])
     }
 }
 
+int can_flip(int board[8][8], int r, int c, int player)
+{
+    int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+    int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+    int opponent = (player == BLACK) ? WHITE : BLACK;
+    int can_really_flip = 0;
+
+    for (int i = 0; i < 8; i++)
+    {
+        int nr = r + dr[i];
+        int nc = c + dc[i];
+        int found_opponent = 0;
+
+        while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == opponent)
+        {
+            nr += dr[i];
+            nc += dc[i];
+            found_opponent = 1;
+        }
+
+        if (found_opponent && nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == player)
+        {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int main(void)
 {
     int board[8][8] = {EMPTY};
@@ -52,7 +81,16 @@ int main(void)
 
         if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
         {
-            if (board[row][col] == EMPTY)
+            if (board[row][col] != EMPTY)
+            {
+                printf("そこにはすでに石があります！\n");
+            }
+            else if (!can_flip(board, row, col, current_player))
+            {
+                printf("そこには置けません（相手の石を挟めません）！\n");
+            }
+
+            else
             {
                 board[row][col] = current_player;
                 printf("%d行 %d列に置きました。\n", row, col);
@@ -64,10 +102,6 @@ int main(void)
                 {
                     current_player = BLACK;
                 }
-            }
-            else
-            {
-                printf("そこにはすでに石があります！\n");
             }
         }
         else
