@@ -60,6 +60,40 @@ int can_flip(int board[8][8], int r, int c, int player)
     return 0;
 }
 
+void flip_stones(int board[8][8], int r, int c, int player)
+{
+    int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
+    int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
+    int opponent = (player == BLACK) ? WHITE : BLACK;
+
+    for (int i = 0; i < 8; i++)
+    {
+        int nr = r + dr[i];
+        int nc = c + dc[i];
+        int found_opponent = 0;
+
+        while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == opponent)
+        {
+            nr += dr[i];
+            nc += dc[i];
+            found_opponent = 1;
+        }
+
+        if (found_opponent && nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == player)
+        {
+            int fr = r + dr[i];
+            int fc = c + dc[i];
+
+            while (board[fr][fc] == opponent)
+            {
+                board[fr][fc] = player;
+                fr += dr[i];
+                fc += dc[i];
+            }
+        }
+    }
+}
+
 int main(void)
 {
     int board[8][8] = {EMPTY};
@@ -93,6 +127,7 @@ int main(void)
             else
             {
                 board[row][col] = current_player;
+                flip_stones(board, row, col, current_player);
                 printf("%d行 %d列に置きました。\n", row, col);
                 if (current_player == BLACK)
                 {
