@@ -146,6 +146,21 @@ int main(void)
     {
         count_stones(board);
         print_board(board);
+
+        if (!has_valid_move(board, current_player))
+        {
+            printf("%sは置ける場所がありません。パスします。\n", (current_player == BLACK) ? "黒" : "白");
+            current_player = (current_player == BLACK) ? WHITE : BLACK;
+
+            if (!has_valid_move(board, current_player))
+            {
+                printf("両者置ける場所がありません。ゲーム終了です\n");
+                count_stones(board);
+                break;
+            }
+            continue;
+        }
+
         printf("%sの番です。\n", (current_player == BLACK) ? "黒(B)" : "白(W)");
 
         printf("どこに置きますか？ (行 列): ");
