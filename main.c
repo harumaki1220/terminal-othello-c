@@ -94,6 +94,29 @@ void flip_stones(int board[8][8], int r, int c, int player)
     }
 }
 
+void count_stones(int board[8][8])
+{
+    int black = 0;
+    int white = 0;
+
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (board[i][j] == BLACK)
+            {
+                black++;
+            }
+            else if (board[i][j] == WHITE)
+            {
+                white++;
+            }
+        }
+    }
+
+    printf("黒: %d, 白: %d\n", black, white);
+}
+
 int main(void)
 {
     int board[8][8] = {EMPTY};
@@ -107,6 +130,7 @@ int main(void)
 
     while (1)
     {
+        count_stones(board);
         print_board(board);
         printf("%sの番です。\n", (current_player == BLACK) ? "黒(B)" : "白(W)");
 
