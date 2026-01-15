@@ -3,16 +3,22 @@
 #define EMPTY 0
 #define BLACK 1
 #define WHITE 2
+#define SIZE 8
 
-void print_board(int board[8][8])
+void print_board(int board[SIZE][SIZE])
 {
-    printf("  0 1 2 3 4 5 6 7\n");
+    printf("  ");
+    for (int j = 0; j < SIZE; j++)
+    {
+        printf("%d ", j);
+    }
+    printf("\n");
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < SIZE; i++)
     {
         printf("%d ", i);
 
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < SIZE; j++)
         {
             if (board[i][j] == EMPTY)
             {
@@ -31,7 +37,7 @@ void print_board(int board[8][8])
     }
 }
 
-int can_flip(int board[8][8], int r, int c, int player)
+int can_flip(int board[SIZE][SIZE], int r, int c, int player)
 {
     int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -43,14 +49,14 @@ int can_flip(int board[8][8], int r, int c, int player)
         int nc = c + dc[i];
         int found_opponent = 0;
 
-        while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == opponent)
+        while (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] == opponent)
         {
             nr += dr[i];
             nc += dc[i];
             found_opponent = 1;
         }
 
-        if (found_opponent && nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == player)
+        if (found_opponent && nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] == player)
         {
             return 1;
         }
@@ -59,7 +65,7 @@ int can_flip(int board[8][8], int r, int c, int player)
     return 0;
 }
 
-void flip_stones(int board[8][8], int r, int c, int player)
+void flip_stones(int board[SIZE][SIZE], int r, int c, int player)
 {
     int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
@@ -71,14 +77,14 @@ void flip_stones(int board[8][8], int r, int c, int player)
         int nc = c + dc[i];
         int found_opponent = 0;
 
-        while (nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == opponent)
+        while (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] == opponent)
         {
             nr += dr[i];
             nc += dc[i];
             found_opponent = 1;
         }
 
-        if (found_opponent && nr >= 0 && nr < 8 && nc >= 0 && nc < 8 && board[nr][nc] == player)
+        if (found_opponent && nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && board[nr][nc] == player)
         {
             int fr = r + dr[i];
             int fc = c + dc[i];
@@ -93,14 +99,14 @@ void flip_stones(int board[8][8], int r, int c, int player)
     }
 }
 
-void count_stones(int board[8][8])
+void count_stones(int board[SIZE][SIZE])
 {
     int black = 0;
     int white = 0;
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < SIZE; i++)
     {
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < SIZE; j++)
         {
             if (board[i][j] == BLACK)
             {
@@ -116,11 +122,11 @@ void count_stones(int board[8][8])
     printf("黒: %d, 白: %d\n", black, white);
 }
 
-int has_valid_move(int board[8][8], int player)
+int has_valid_move(int board[SIZE][SIZE], int player)
 {
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < SIZE; i++)
     {
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < SIZE; j++)
         {
             if (board[i][j] == EMPTY && can_flip(board, i, j, player))
             {
@@ -133,14 +139,15 @@ int has_valid_move(int board[8][8], int player)
 
 int main(void)
 {
-    int board[8][8] = {EMPTY};
+    int board[SIZE][SIZE] = {EMPTY};
     int row, col;
     int current_player = BLACK;
 
-    board[3][3] = WHITE;
-    board[3][4] = BLACK;
-    board[4][3] = BLACK;
-    board[4][4] = WHITE;
+    int mid = SIZE / 2;
+    board[mid - 1][mid - 1] = WHITE;
+    board[mid - 1][mid] = BLACK;
+    board[mid][mid - 1] = BLACK;
+    board[mid][mid] = WHITE;
 
     while (1)
     {
@@ -166,14 +173,14 @@ int main(void)
         printf("どこに置きますか？ (行 列): ");
         if (scanf("%d %d", &row, &col) != 2)
         {
-            printf("エラー：数字（0～7）を2つ入力してください。\n");
+            printf("エラー：数字（0～%d）を2つ入力してください。\n", SIZE - 1);
             while (getchar() != '\n')
             {
             }
             continue;
         }
 
-        if (row >= 0 && row <= 7 && col >= 0 && col <= 7)
+        if (row >= 0 && row < SIZE && col >= 0 && col < SIZE)
         {
             if (board[row][col] != EMPTY)
             {
