@@ -36,7 +36,6 @@ int can_flip(int board[8][8], int r, int c, int player)
     int dr[] = {-1, -1, -1, 0, 0, 1, 1, 1};
     int dc[] = {-1, 0, 1, -1, 1, -1, 0, 1};
     int opponent = (player == BLACK) ? WHITE : BLACK;
-    int can_really_flip = 0;
 
     for (int i = 0; i < 8; i++)
     {
