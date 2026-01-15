@@ -116,6 +116,21 @@ void count_stones(int board[8][8])
     printf("黒: %d, 白: %d\n", black, white);
 }
 
+int has_valid_move(int board[8][8], int player)
+{
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 8; j++)
+        {
+            if (board[i][j] == EMPTY && can_flip(board, i, j, player))
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 int main(void)
 {
     int board[8][8] = {EMPTY};
