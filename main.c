@@ -99,7 +99,7 @@ void flip_stones(int board[SIZE][SIZE], int r, int c, int player)
     }
 }
 
-void count_stones(int board[SIZE][SIZE])
+void count_stones(int board[SIZE][SIZE], int is_game_over)
 {
     int black = 0;
     int white = 0;
@@ -120,6 +120,23 @@ void count_stones(int board[SIZE][SIZE])
     }
 
     printf("黒: %d, 白: %d\n", black, white);
+
+    if (is_game_over)
+    {
+        printf("\n=== 最終結果 ===\n");
+        if (black < white)
+        {
+            printf("白の勝ち！");
+        }
+        else if (white < black)
+        {
+            printf("黒の勝ち！");
+        }
+        else
+        {
+            printf("引き分け！");
+        }
+    }
 }
 
 int has_valid_move(int board[SIZE][SIZE], int player)
@@ -151,7 +168,7 @@ int main(void)
 
     while (1)
     {
-        count_stones(board);
+        count_stones(board, 0);
         print_board(board);
 
         if (!has_valid_move(board, current_player))
@@ -162,7 +179,7 @@ int main(void)
             if (!has_valid_move(board, current_player))
             {
                 printf("両者置ける場所がありません。ゲーム終了です\n");
-                count_stones(board);
+                count_stones(board, 1);
                 break;
             }
             continue;
