@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
 #define EMPTY 0
 #define BLACK 1
@@ -196,7 +197,7 @@ int main(void)
         // ターン実行
         if (current_player == BLACK)
         {
-            printf("あなたの番です。どこに置きますか？ (行 列): ");
+            printf("あなたの番(黒)です。どこに置きますか？ (行 列): ");
             if (scanf("%d %d", &row, &col) != 2)
             {
                 printf("エラー: 数字を入力してください。\n");
@@ -208,8 +209,11 @@ int main(void)
         else
         {
             printf("CPUの番です。考えています...\n");
+            fflush(stdout);
+            sleep(1);
             cpu_move(board, current_player, &row, &col);
             printf("CPUは %d %d に置きました。\n", row, col);
+            sleep(1);
         }
 
         if (row >= 0 && row < SIZE && col >= 0 && col < SIZE &&
